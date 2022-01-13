@@ -10,11 +10,8 @@ const other = ({wednesday}) => {
 
         
         <div>
-            <p>Det här är en annan sida</p>
-            <h1>Annan-sida</h1>
-            <h2>{wednesday.header}</h2>
-            <p>{wednesday.subHeader}</p>
-            {wednesday.map(day => {
+            {
+            wednesday.map(day => {
                 // console.log({day})
                 const typeName = day.__typename;
                 // console.log({typeName})
@@ -38,7 +35,8 @@ const other = ({wednesday}) => {
 
                 }
 
-            })}
+            }
+            )}
         </div>
     )
 }

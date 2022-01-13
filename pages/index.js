@@ -2,12 +2,14 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
+import HeroSection from '../components/FrontPage/HeroSection';
 import TestHeader from '../components/TestHeader';
-import SubHeader from '../components/SubHeader';
 import styles from '../styles/Layout.module.css';
 
 
-const Home = ( {content, test} ) => {
+const Home = ( {content} ) => {
+
+  console.log({content})
   return (
     <div className={styles.container}>
  
@@ -21,15 +23,29 @@ const Home = ( {content, test} ) => {
       <main className={styles.containerFluid}>
         <div className={styles.container}>
           <div id={styles.welcomeMessage} className={styles.colMd12}>
-            <h1 className={styles.title}>{content.homePage.homePageHeader}</h1> 
-            <h2> {content.homePage.homePageSubheader}</h2>
-            <p className={styles.info}>{content.homePage.infoText}</p>
-            {/* <SubHeader name='kalle'/>           
-            <TestHeader/> */}
-          </div>
+            
+            {
+              content.map(info => {
+                const typeName = info.__typename;
+                console.log(typeName)
+                switch (typeName) {
+                  case 'Page_Homepage_Content_HeroSection':
+                      return (
+                        <HeroSection/>
+                      )  
 
-          <div id={styles.heroSubContainerImg} className={styles.colMd12}>
-            <img src={content.homePage.heroImage.sourceUrl} />
+                }
+              })
+            }
+    
+            {/*</div>              
+              <h1 className={styles.title}>{content.homePage.heroHeader}</h1> 
+              <h2> {content.homePage.homePageSubheader}</h2>
+              <p className={styles.info}>{content.homePage.infoText}</p>
+            </div>
+
+            <div id={styles.heroSubContainerImg} className={styles.colMd12}>
+              <img src={content.homePage.heroImage.sourceUrl} /> */}
           </div>
 
 
@@ -49,11 +65,16 @@ export async function getStaticProps() {
     query test {
       page(id: "cG9zdDo5") {
         homePage {
-          homePageHeader
-          homePageSubheader
-          infoText
-          heroImage {
-            sourceUrl
+          content {
+            ... on Page_Homepage_Content_HeroSection {
+              fieldGroupName
+              heroHeader
+              heroInfoText
+              heroSubHeader
+              heroImage {
+                sourceUrl
+              }
+            }
           }
         }
       }
@@ -63,8 +84,33 @@ export async function getStaticProps() {
 
   return {
     props: {
-      content: data.page,
+      content: data.page.homePage.content,
     },
  };
 }
+
+// export async function getStaticProps() {
+//   const { data } = await client.query({
+//     query: gql`
+//     query test {
+//       page(id: "cG9zdDo5") {
+//         homePage {
+//           homePageHeader
+//           homePageSubheader
+//           infoText
+//           heroImage {
+//             sourceUrl
+//           }
+//         }
+//       }
+//     }
+//     `,
+//   });
+
+//   return {
+//     props: {
+//       content: data.page,
+//     },
+//  };
+// }
 
