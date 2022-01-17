@@ -21,7 +21,7 @@ const Home = ( {content} ) => {
       </Head>
 
       <main className={styles.containerFluid}>
-        <div className={styles.container}>
+        <div className={styles.container}>        
           <div id={styles.welcomeMessage} className={styles.colMd12}>
             
             {
@@ -31,7 +31,9 @@ const Home = ( {content} ) => {
                 switch (typeName) {
                   case 'Page_Homepage_Content_HeroSection':
                       return (
-                        <HeroSection/>
+                                                
+                        <HeroSection key={content.id}/>
+                        
                       )  
 
                 }
@@ -87,6 +89,7 @@ export async function getStaticProps() {
       content: data.page.homePage.content,
     },
  };
+
 }
 
 // export async function getStaticProps() {

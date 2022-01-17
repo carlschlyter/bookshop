@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
+import HeaderSection from "../components/Other/HeaderSection";
+import InfoSection from "../components/Other/InfoSection";
 
 
 const other = ({wednesday}) => {
@@ -18,7 +20,8 @@ const other = ({wednesday}) => {
                 switch (typeName) {
                     case 'Page_Otherpage_Content_HeaderSection':
                         return (
-                            <div> 
+                            <div key={wednesday.id}{...wednesday}> 
+                              <HeaderSection />
                                 <h1 key={day.id} >{day.header}</h1>     
                                 <h2 key={day.id}> {day.subHeader}</h2>
                             </div>  
@@ -26,12 +29,15 @@ const other = ({wednesday}) => {
                     case
                     'Page_Otherpage_Content_InfoSection':
                         return (
-                            <div>
+                            <div key={wednesday.id}{...wednesday}>
+                              <InfoSection />
                                 <h1 key={day.id} >{day.infoHeader}</h1>
                             
                                 <h2 key={day.id}> {day.infoSubHeader}</h2>
                            </div> 
                         )
+
+                    default: <p>No such layout</p>
 
                 }
 
